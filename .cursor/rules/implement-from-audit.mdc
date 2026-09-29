@@ -1,0 +1,22 @@
+---
+description: Activar el Skill neutral implement-from-audit solo tras una auditoría aprobada y autorización humana explícita
+alwaysApply: false
+---
+
+# implement-from-audit
+
+Aplica esta regla cuando exista una auditoría previa y la persona usuaria
+autorice implementar la decisión correspondiente, por ejemplo:
+
+- «Implementa lo que encontramos.»
+- «Procede con la solución propuesta.»
+- «Aplica la opción 2.»
+- «Ya aprobamos el diseño; hacé el cambio.»
+
+Lee y sigue `.ai/skills/implement-from-audit/SKILL.md`. Ese archivo es la
+única fuente de verdad; esta regla es solo un adaptador delgado.
+
+No actives implementación únicamente porque exista un `AUDIT RESULT`. Sin
+auditoría previa, usa `.ai/WORKFLOW.md` y `audit-first` según el riesgo. Si al
+releer el source la auditoría quedó obsoleta o el alcance cambió materialmente,
+detente y solicita una nueva decisión humana.

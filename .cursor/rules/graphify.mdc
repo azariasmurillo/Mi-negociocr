@@ -1,0 +1,21 @@
+---
+description: graphify knowledge graph context
+alwaysApply: true
+---
+
+This project has a **Graphify** knowledge graph (a veces lo llamamos *Graphyfy*) en `graphify-out/` del monorepo **`Mi-negociocr/`**. The neutral project instructions live in `.ai/`; read `.ai/README.md` and follow `.ai/WORKFLOW.md` for proportional Graphify use.
+
+**Siempre ejecutá la CLI desde la raíz del workspace** (`c:\Mi-negociocr`), no desde `MiNegocioCR.Api/` u otros subrepos — ahí no existe `graphify-out/graph.json`.
+
+Use Graphify when it adds value for discovering structure, relationships, dependencies, or impact. It is not required for trivial/local changes whose scope is already clear. For medium/high-risk changes or cross-product investigations, prefer it as an initial map when useful. The current source remains the final authority.
+
+When useful, run from the workspace root:
+- `graphify query "<question>"` — scoped subgraph
+- `graphify path "<A>" "<B>"` — dependency path
+- `graphify explain "<concept>"` — related nodes
+
+This applies to you and any subagent whose task benefits from graph exploration. Direct Read/Grep/Glob remain appropriate for known files, trivial/local changes, or focused edits after orientation.
+
+- If `graphify-out/wiki/index.md` exists, navigate it instead of reading raw files
+- Read `graphify-out/GRAPH_REPORT.md` only for broad architecture review when query/path/explain do not surface enough context
+- After modifying graph-relevant code files, run `graphify update .` when authorized and useful; do not impose it on trivial/local changes or when the user prohibits Graphify updates.

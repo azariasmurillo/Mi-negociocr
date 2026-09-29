@@ -1,0 +1,69 @@
+---
+description: Contexto del monorepo local MiNegocioCR (API + Angular + Flutter)
+alwaysApply: true
+---
+
+# MiNegocioCR — workspace local
+
+## Neutral source of truth
+
+Read `.ai/README.md` first, then `.ai/PRINCIPLES.md`, `.ai/WORKFLOW.md`, `.ai/PROJECT.md`, `.ai/ARCHITECTURE.md`, `.ai/TENANCY.md`, `.ai/SAFETY.md`, and the applicable area instruction. The current source is authoritative; verified `.ai/` guidance takes precedence over historical Cursor text. Graphify remains a shared structural map and is used proportionally according to `.ai/WORKFLOW.md`.
+
+Carpeta padre `Mi-negociocr/` **no es un git unificado**. Tres repos independientes:
+
+| Carpeta | Stack | Git | Deploy |
+|---------|-------|-----|--------|
+| `MiNegocioCR.Api/` | .NET 8, EF Core, PostgreSQL | `master` | Railway |
+| `mi-negociocr-frontend/` | Angular 21, Material, SignalR | `main` | Vercel → mi-negociocr.com |
+| `mi-negociocr-app/` | Flutter 3, Riverpod, Dio | `main` / `feature/mobile-app-fase-a` | APK Android |
+
+Infra: Supabase (Postgres + Storage), Resend (email), Meta/WhatsApp, Gemini (IA).
+
+## Producto
+
+SaaS multi-tenant para negocios (CR): inventario/catálogo, POS/ventas, reparaciones, pedidos internet, créditos, CRM/campañas, dashboard, WhatsApp. Moneda/locale: CRC / `es-CR`.
+
+## Multi-tenant (crítico)
+
+- Entidades y queries filtran por `BusinessId` (manual; sin global query filter EF).
+- JWT claims `businessId` / `business_id`. FE envía tenant en path/body/params (no header mágico).
+- Nunca cruzar datos entre negocios ni hardcodear `BusinessId`.
+
+## Arquitectura por repo
+
+**API:** Clean Architecture Domain → Application → Infrastructure → API. Controllers sin lógica; validación en Application. Sigue el patrón de persistencia real del módulo: hay repositorios registrados, pero créditos y otros casos de uso usan `IAppDbContext` directamente. Detalle adicional: `MiNegocioCR.Api/.cursor/backend/` y `.ai/instructions/api.md`.
+
+**Frontend:** Standalone Angular. HTTP solo en services; components = UI. Auth: Bearer + sesión/configuración `businessId`. Detalle adicional: `mi-negociocr-frontend/.cursor/frontend/` y `.ai/instructions/frontend.md`. Shared real: `features/shared/` (no `src/app/shared`).
+
+**App:** Login JWT, escáner barcode, recepción stock, flujo inventario enriquecido IA, reparaciones, recibos y pedidos Internet. Debug API `127.0.0.1:5273` + `adb reverse`; release → Railway.
+
+## Estado de módulos (sep 2026)
+
+- **Producción:** inventario UX (incl. atajo web **Agotados y última unidad** / `stockMax = 1`), ventas, reparaciones, **pedidos internet v2** (PreOrder, fees, adelantos Payment, POS 1 línea), **créditos v1.2**, CRM, dashboard, gastos, pipeline fotos marketplace.
+- **Pedidos Internet v2:** doc `MiNegocioCR.Api/docs/CAMBIOS_PEDIDOS_INTERNET_V2_SEP_2026.md`; SQL `docs/scripts/MANUAL_INTERNET_ORDERS_V2_MIGRATION.sql`.
+- **Pedidos Internet en Flutter:** guía `mi-negociocr-app/docs/CAMBIOS_PEDIDOS_INTERNET_APP_SEP_2026.md`. Pendientes excluye `Cancelled`/`Delivered`; pagar completo solo en `Received` con saldo y sin facturar.
+- **Comprobantes Flutter:** cobro de reparación usa `SaleReceiptKind.repairPayment` y título `COMPROBANTE DE PAGO DE REPARACIÓN`; venta normal conserva `COMPROBANTE DE VENTA`.
+- **Créditos (IA):** UX por `ContactId`; saldo = `CreditAccountBalanceResolver`; post-pago `CreditAccountSnapshotSync`. Doc: `MiNegocioCR.Api/docs/CAMBIOS_CREDITOS_MULTI_CUENTA_AGO_2026.md`. FE: `credit-contact-detail-dialog` (no el modal viejo por cuenta).
+- **Activo / en curso:** Inventario Enriquecido V1 (IA obligatoria en alta; draft→revisión→confirm). Spec: `MiNegocioCR.Api/docs/INVENTARIO_ENRIQUECIDO_v1.md`.
+- **Tienda pública:** F8 storefront configurable; **F1-D Quick View** hover en catálogo — `MiNegocioCR.Api/docs/CAMBIOS_QUICK_VIEW_F1_D_SEP_2026.md`.
+- **Backlog (sin StoreOrder aún):** Tienda pública `/tienda/{slug}` — M1–M9 en `MARKETPLACE_INICIO_JUNIO_2026.md`. Fotos/estilo marketplace ya existen; storefront público no.
+
+## Graphify (exploración del código)
+
+- Grafo del monorepo: `graphify-out/graph.json` · reporte `graphify-out/GRAPH_REPORT.md`
+- Desde la raíz `Mi-negociocr/`: `graphify query "..."`, `graphify path "A" "B"`, `graphify explain "..."`
+- Tras cambios graph-relevant: `graphify update .` cuando esté autorizado y aporte valor (AST, sin LLM)
+- Regla del agente: `.cursor/rules/graphify.mdc` (uso proporcional según `.ai/WORKFLOW.md`)
+
+## Docs clave (empezar aquí)
+
+- Índice: `MiNegocioCR.Api/docs/WORKSPACE_INDEX.md` y `README.md` raíz
+- Deploy: `DEPLOY.md` (Railway + Vercel + Supabase puerto 5432)
+- Changelog: `FIXES_MAYO_2026.md`
+- Finanzas: `REFACTOR_REPAIR_PAYMENTS_SALES.md`
+
+## Convenciones al editar
+
+- Seguir reglas `.cursor` del repo que se toque; no mezclar estilos FE/BE.
+- Pre-deploy: `dotnet test` en API; `npm run build` en frontend.
+- Docs de diseño viven a menudo duplicadas en raíz y en `MiNegocioCR.Api/docs/` — preferir `docs/` del API como canónicas cuando existan ambas.

@@ -1,0 +1,46 @@
+# Repos de producto (cada uno tiene su propio Git y remoto)
+/MiNegocioCR.Api/
+/mi-negociocr-frontend/
+/mi-negociocr-app/
+
+# Copias / builds / artefactos locales (no arquitectura productiva)
+/_api_test_copy_20260902/
+/_api_test_isolated/
+/_api_out/
+/_build_out/
+/_build_out_test/
+/_testout/
+/_test_out/
+/_tmp/
+/_tmp_out_docx/
+/_tmp_volantes_docx/
+/_hashgen/
+/.build-tmp/
+/.build-tmp2/
+/artifacts/
+
+# Graphify (regenerable: graphify update .)
+/graphify-out/
+**/graphify-out/
+
+# Datos / binarios sueltos en la raíz
+*.csv
+*.zip
+
+# Secretos
+.env
+.env.*
+**/appsettings.Development.json
+**/*credentials*
+**/*.pem
+**/*.pfx
+
+# OS / IDE
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*.swo
+
+# Opcional: assets pesados locales
+/Imagenes y Logos/

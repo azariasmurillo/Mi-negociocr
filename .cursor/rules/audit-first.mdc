@@ -1,0 +1,13 @@
+---
+description: Activar la auditoría neutral audit-first de Mi-NegocioCR cuando el riesgo o la incertidumbre lo justifiquen
+alwaysApply: false
+---
+
+# audit-first
+
+Aplica esta regla cuando la solicitud pida investigar antes de cambiar, auditar un bug o impacto, revisar consumidores, o toque contratos, persistencia, pagos, créditos, saldos, dinero, `BusinessId`/tenancy, autenticación, autorización, migraciones, seguridad, infraestructura o cambios transversales.
+
+Lee y sigue el Skill neutral en `.ai/skills/audit-first/SKILL.md`. `.ai/` conserva la autoridad y el source actual es la evidencia final. Respeta la clasificación y el workflow de `.ai/WORKFLOW.md`.
+
+No actives una auditoría pesada para texto, CSS/estilos, cambios visuales simples o modificaciones locales evidentes y reversibles cuyo alcance ya esté claro.
+
