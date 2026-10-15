@@ -972,4 +972,28 @@ Solo frontend (`main` → Vercel). Sin migraciones.
 
 ---
 
-*Última actualización: 11 junio 2026*
+## 33. Marketplace PDP — lightbox de galería (oct 2026)
+
+### Qué se entregó
+
+- Visor ampliado en PDP pública: modal centrado, contador, navegación y controles de zoom.
+- Interacción: sin `zoom-in` dentro del visor; pan con límites cuando hay zoom; clic simple no amplía (solo toolbar).
+- Galería principal conserva `zoom-in` porque el clic abre el visor.
+
+### Documentación
+
+**[mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md](./mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md)** — smoke lightbox y Fase 3.
+
+### Deploy
+
+Solo frontend (`main` → Vercel). Sin migraciones ni cambios API para este fix.
+
+```powershell
+cd mi-negociocr-frontend
+npm test -- --watch=false
+npm run build
+```
+
+---
+
+*Última actualización: 15 octubre 2026*
