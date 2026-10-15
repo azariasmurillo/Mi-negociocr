@@ -1,0 +1,48 @@
+---
+description: Orden obligatorio antes de push/merge/deploy a producción (tests → docs → subir)
+alwaysApply: true
+---
+
+# Pipeline de deploy — tests, documentación, subida
+
+Cuando el usuario pida **deploy**, **subir a producción**, **push a main/master**, **merge a main/master** o equivalente, seguir **este orden** sin saltar pasos. No hacer push ni merge hasta completar 1 y 2.
+
+## 1. Unit tests (todo lo tocado)
+
+Ejecutar la **suite completa de unit tests** de **cada repo** que incluya el cambio. Corregir fallos antes de continuar.
+
+| Repo | Comando (desde la carpeta del repo) |
+|------|-------------------------------------|
+| `MiNegocioCR.Api/` | `dotnet test` |
+| `mi-negociocr-frontend/` | `npm test -- --watch=false` |
+| `mi-negociocr-app/` (si aplica) | `flutter test` |
+
+- Solo API tocada → solo `dotnet test`.
+- Solo frontend tocado → solo `npm test -- --watch=false`.
+- Ambos → **ambos**, en secuencia.
+- Tras tests OK, **build de release** del repo desplegado: `npm run build` (FE) y/o `dotnet build` (API) si el deploy lo requiere.
+
+Reportar al usuario: comandos corridos, pass/fail, conteo si está disponible.
+
+## 2. Documentación
+
+Actualizar docs **en el mismo cambio** (commit o commits del deploy), según lo modificado:
+
+- Changelog / fixes: `FIXES_MAYO_2026.md` o doc de módulo en `MiNegocioCR.Api/docs/` (canónica).
+- Comportamiento de producto o deploy: `DEPLOY.md` y/o `MiNegocioCR.Api/docs/DEPLOY.md`.
+- Índice si aplica: `MiNegocioCR.Api/docs/WORKSPACE_INDEX.md`.
+
+No subir código de prod sin docs al día para el cambio que se despliega.
+
+## 3. Subir cambios
+
+Solo después de **tests en verde** y **docs actualizadas**:
+
+1. Commit en el repo correspondiente (API `master`, frontend `main`, etc.).
+2. Push autorizado por el usuario.
+3. Merge / deploy según flujo acordado.
+
+## Prohibido
+
+- Push o merge a `main`/`master` con tests fallidos o sin correr la suite del repo afectado.
+- Deploy “solo código” omitiendo documentación del cambio.

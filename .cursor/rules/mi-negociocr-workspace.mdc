@@ -9,7 +9,7 @@ alwaysApply: true
 
 Read `.ai/README.md` first, then `.ai/PRINCIPLES.md`, `.ai/WORKFLOW.md`, `.ai/PROJECT.md`, `.ai/ARCHITECTURE.md`, `.ai/TENANCY.md`, `.ai/SAFETY.md`, and the applicable area instruction. The current source is authoritative; verified `.ai/` guidance takes precedence over historical Cursor text. Graphify remains a shared structural map and is used proportionally according to `.ai/WORKFLOW.md`.
 
-Carpeta padre `Mi-negociocr/` **no es un git unificado**. Tres repos independientes:
+La carpeta padre `Mi-negociocr/` tiene un **meta-repositorio Git** para instrucciones y documentación compartida. Los tres productos mantienen repositorios independientes, excluidos del Git raíz por `.gitignore`. Ver `docs/WORKSPACE_GIT.md`. Las ramas de la tabla son referencias principales/históricas; verificar siempre la rama activa antes de trabajar.
 
 | Carpeta | Stack | Git | Deploy |
 |---------|-------|-----|--------|
@@ -26,7 +26,8 @@ SaaS multi-tenant para negocios (CR): inventario/catálogo, POS/ventas, reparaci
 ## Multi-tenant (crítico)
 
 - Entidades y queries filtran por `BusinessId` (manual; sin global query filter EF).
-- JWT claims `businessId` / `business_id`. FE envía tenant en path/body/params (no header mágico).
+- En endpoints autenticados, el tenant se obtiene del JWT (`businessId` / `business_id`). Cuando el contrato exige `BusinessId` en path/body/params, la API valida su correspondencia con el JWT; otros contratos lo obtienen directamente de las claims.
+- En el catálogo público, el FE envía el slug. `PublicStoreResolver` resuelve una tienda habilitada y su `BusinessId`; las consultas de productos/imágenes conservan ese filtro. No añadir un `BusinessId` arbitrario de UI ni exigir JWT a esos contratos públicos.
 - Nunca cruzar datos entre negocios ni hardcodear `BusinessId`.
 
 ## Arquitectura por repo
@@ -37,7 +38,9 @@ SaaS multi-tenant para negocios (CR): inventario/catálogo, POS/ventas, reparaci
 
 **App:** Login JWT, escáner barcode, recepción stock, flujo inventario enriquecido IA, reparaciones, recibos y pedidos Internet. Debug API `127.0.0.1:5273` + `adb reverse`; release → Railway.
 
-## Estado de módulos (sep 2026)
+## Estado de módulos (notas sep 2026; aclaración documental 15 octubre 2026)
+
+Las menciones de producción de estas notas conservan su contexto histórico; no certifican el estado remoto actual. Distinguir código implementado, integración local entre consumidores y despliegue verificado por release. Antes de operar producción, comprobar release y schema del entorno objetivo.
 
 - **Producción:** inventario UX (incl. atajo web **Agotados y última unidad** / `stockMax = 1`), ventas, reparaciones, **pedidos internet v2** (PreOrder, fees, adelantos Payment, POS 1 línea), **créditos v1.2**, CRM, dashboard, gastos, pipeline fotos marketplace.
 - **Pedidos Internet v2:** doc `MiNegocioCR.Api/docs/CAMBIOS_PEDIDOS_INTERNET_V2_SEP_2026.md`; SQL `docs/scripts/MANUAL_INTERNET_ORDERS_V2_MIGRATION.sql`.
@@ -45,8 +48,8 @@ SaaS multi-tenant para negocios (CR): inventario/catálogo, POS/ventas, reparaci
 - **Comprobantes Flutter:** cobro de reparación usa `SaleReceiptKind.repairPayment` y título `COMPROBANTE DE PAGO DE REPARACIÓN`; venta normal conserva `COMPROBANTE DE VENTA`.
 - **Créditos (IA):** UX por `ContactId`; saldo = `CreditAccountBalanceResolver`; post-pago `CreditAccountSnapshotSync`. Doc: `MiNegocioCR.Api/docs/CAMBIOS_CREDITOS_MULTI_CUENTA_AGO_2026.md`. FE: `credit-contact-detail-dialog` (no el modal viejo por cuenta).
 - **Activo / en curso:** Inventario Enriquecido V1 (IA obligatoria en alta; draft→revisión→confirm). Spec: `MiNegocioCR.Api/docs/INVENTARIO_ENRIQUECIDO_v1.md`.
-- **Tienda pública:** F8 storefront configurable; **F1-D Quick View** hover en catálogo — `MiNegocioCR.Api/docs/CAMBIOS_QUICK_VIEW_F1_D_SEP_2026.md`.
-- **Backlog (sin StoreOrder aún):** Tienda pública `/tienda/{slug}` — M1–M9 en `MARKETPLACE_INICIO_JUNIO_2026.md`. Fotos/estilo marketplace ya existen; storefront público no.
+- **Tienda pública implementada:** rutas `/tienda/:slug`, catálogo/PDP, carrito, checkout y confirmación; API pública y `StoreOrder` existentes. F8 y F1-D están documentados en `MiNegocioCR.Api/docs/`; no volver a crear el módulo como backlog.
+- **Integración local de Marketplace:** la rama FE `feature/storefront-phase3-public-marketplace` conecta header y servicios al contrato API. Ver `mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md`. Su presencia en una rama no demuestra merge a `main`/`master`, deploy ni migraciones aplicadas en producción.
 
 ## Graphify (exploración del código)
 
@@ -65,5 +68,9 @@ SaaS multi-tenant para negocios (CR): inventario/catálogo, POS/ventas, reparaci
 ## Convenciones al editar
 
 - Seguir reglas `.cursor` del repo que se toque; no mezclar estilos FE/BE.
-- Pre-deploy: `dotnet test` en API; `npm run build` en frontend.
-- Docs de diseño viven a menudo duplicadas en raíz y en `MiNegocioCR.Api/docs/` — preferir `docs/` del API como canónicas cuando existan ambas.
+- Pre-deploy (orden fijo): ver `.cursor/rules/deploy-pipeline.mdc` — **unit tests completos** → **actualizar docs** → **commit/push/merge**.
+- Fuentes por tema y roles de copias: [.ai/README.md](../../.ai/README.md). Elegir por contenido y evidencia, no por estar en API: varios documentos completos de UI viven en frontend. Conservar resúmenes, decisiones históricas y entradas propias sin sincronizar cuerpos por reemplazo.
+
+## Memoria técnica permanente
+
+Aplicar [.ai/WORKFLOW.md](../../.ai/WORKFLOW.md), sección 5, antes y después de implementar: documentación canónica y decisiones → source → cambio y validación autorizados → actualización proporcional de la nota existente. Registrar evidencia y pendientes, separando implementado, integrado y desplegado; no crear un historial paralelo.

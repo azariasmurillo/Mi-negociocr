@@ -6,6 +6,10 @@ This project has a knowledge graph at graphify-out/ with god nodes, community st
 
 Before project work, read `.ai/README.md` and follow its reading order: `.ai/PRINCIPLES.md`, `.ai/WORKFLOW.md`, `.ai/PROJECT.md`, `.ai/ARCHITECTURE.md`, `.ai/TENANCY.md`, and `.ai/SAFETY.md`. Then read the applicable `.ai/` area instruction: `.ai/instructions/api.md`, `.ai/instructions/frontend.md`, or `.ai/instructions/mobile.md`. The current source is the final authority; verified `.ai/` guidance takes precedence over historical provider-specific rules.
 
+The canonical documentation map, copy roles, status definitions, and isolated-checkout limitations live in [.ai/README.md](./.ai/README.md). Use that map rather than assuming all files under API docs override frontend-specific documentation. Historical documents retain their original decisions; only verified current guidance governs new work.
+
+Permanent technical memory follows [.ai/WORKFLOW.md](./.ai/WORKFLOW.md), section 5. Before implementation, read the canonical module documentation and relevant decisions, then verify the source. After a significant change is finished and validated, update the corresponding existing documentation with evidence, limitations and separate implementation/integration/deployment status. Apply the small-change exception and authorization limits in that procedure; do not duplicate its rules or create a parallel changelog.
+
 When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
 
 Rules:
