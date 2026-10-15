@@ -1,5 +1,7 @@
 # Inventario — dimensiones, quick-add y errores (Junio 2026)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/CAMBIOS_INVENTARIO_JUNIO_2026_DIMENSIONES_Y_PRECIO.md](./MiNegocioCR.Api/docs/CAMBIOS_INVENTARIO_JUNIO_2026_DIMENSIONES_Y_PRECIO.md). Se conserva el contenido específico de cada repositorio. Las menciones de publicación corresponden a la fecha del documento y no verifican el estado remoto actual.
+
 **Deploy:** 11 junio 2026  
 **Frontend:** `3b1f700` (`main`)  
 **API:** `f517a01` (`master`)

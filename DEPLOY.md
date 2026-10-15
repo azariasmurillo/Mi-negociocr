@@ -1,5 +1,7 @@
 # Deploy a producción — MiNegocioCR
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/DEPLOY.md](./MiNegocioCR.Api/docs/DEPLOY.md). El API reúne los procedimientos por módulo más completos; la raíz conserva el checklist tests → docs → subida. La regla vigente de autorización y orden es .ai/WORKFLOW.md y .cursor/rules/deploy-pipeline.mdc del workspace; no inferir un despliegue ni ejecutar scripts por leer esta guía.
+
 > **Canónica (ago 2026):** la guía más actualizada vive en [`MiNegocioCR.Api/docs/DEPLOY.md`](./MiNegocioCR.Api/docs/DEPLOY.md), incluyendo SQL de **recepción de factura con IA** (`Scripts/20260826_*` y `20260829_*`).
 
 Guía para desplegar el monorepo actual sin sorpresas en producción.
@@ -60,22 +62,45 @@ Usuario → Vercel (Angular) → Railway (API .NET 8)
 
 ## 3. Checklist antes de deploy
 
-Ejecutar en local antes de subir:
+**Orden obligatorio:** (1) unit tests → (2) documentación → (3) commit + push. Regla de agentes: `.cursor/rules/deploy-pipeline.mdc`.
+
+### 3.1 Unit tests (repos tocados)
 
 ```bash
-# API — tests
+# API — suite completa
 cd MiNegocioCR.Api
 dotnet test
 
-# Frontend — build producción
+# Frontend — suite completa (sin watch)
 cd ../mi-negociocr-frontend
+npm test -- --watch=false
+
+# App móvil (solo si el deploy incluye app)
+cd ../mi-negociocr-app
+flutter test
+```
+
+### 3.2 Build de release
+
+```bash
+cd mi-negociocr-frontend
 npm run build
 ```
 
+### 3.3 Documentación
+
+Actualizar en el mismo deploy: changelog (`FIXES_MAYO_2026.md` o doc de módulo en `MiNegocioCR.Api/docs/`), y este `DEPLOY.md` si cambia el proceso.
+
+### 3.4 Subir
+
+Commit + push en cada repo desplegado (API `master`, frontend `main`).
+
 | Verificación | Esperado |
 |--------------|----------|
-| Tests API | **832** pasando — ver [MiNegocioCR.Api/docs/DEPLOY.md](./MiNegocioCR.Api/docs/DEPLOY.md) (canónica) |
+| Tests API | Suite completa en verde — ver [MiNegocioCR.Api/docs/DEPLOY.md](./MiNegocioCR.Api/docs/DEPLOY.md) (canónica) |
+| Tests frontend | `npm test -- --watch=false` en verde |
 | Build frontend | Sin errores TypeScript (warnings de budget CSS OK) |
+| Docs | Actualizadas para el cambio que se despliega |
 | Cambios commiteados | API (`master`) y frontend (`main`) |
 | Variables Railway | Todas las obligatorias configuradas |
 | Schema BD prod | Migraciones + script pendiente aplicados |
@@ -157,6 +182,14 @@ Alternativas aceptadas por el código:
 
 **Causa #1 de errores 500 en producción:** schema incompleto (columnas/tablas que el código ya usa).
 
+### Alcance y evidencia por entorno (aclaración 15 octubre 2026)
+
+- **Existente en código:** una migración en `MiNegocioCR.Api/Migrations/` o un script en Git define un cambio disponible; no demuestra que se haya ejecutado.
+- **Aplicada en desarrollo:** comprobar `__EFMigrationsHistory` y el schema de la base de desarrollo identificada. Ese resultado no describe producción.
+- **Aplicada en producción:** requiere la misma verificación en la base de producción y evidencia del release correspondiente. Este saneamiento documental no accedió a ninguna BD ni verificó releases remotos.
+
+Las listas y comandos de esta sección son referencias operativas condicionadas a verificar el entorno, los cambios realmente pendientes y la autorización del operador. No ejecutar migraciones ni scripts solo por aparecer aquí, ni aplicar dos mecanismos para el mismo cambio sin comprobar su historial y schema. Antes de una mutación en producción, revisar impacto, respaldo/reversión y autorización conforme a `.ai/SAFETY.md`.
+
 ### Migraciones que deben estar aplicadas
 
 | Migración | Qué agrega |
@@ -170,9 +203,9 @@ Alternativas aceptadas por el código:
 | `20260529120000_AddEmailCampaignQueue` | `EmailCampaigns`, `EmailCampaignRecipients` |
 | `20260604142659_AddInternetOrders` | `InternetOrders`, líneas y abonos (Pedidos Internet) |
 
-**Pendiente (sin migración aún):** módulo Créditos — ver [CREDITOS_CUENTAS_COBRAR_DISENO_v1.md](./MiNegocioCR.Api/docs/CREDITOS_CUENTAS_COBRAR_DISENO_v1.md).
+**Créditos ya tiene código y migraciones:** `20260605163023_AddCreditAccounts` y `20260822120000_CreditMultiAccountAndLinks` existen en `MiNegocioCR.Api/Migrations/`; también existe `API/Controllers/CreditAccountsController.cs`. Consultar [la nota de Créditos v1.2](./MiNegocioCR.Api/docs/CAMBIOS_CREDITOS_MULTI_CUENTA_AGO_2026.md). Esto no demuestra que esas migraciones estén aplicadas en desarrollo o producción; verificar cada base antes de decidir qué falta.
 
-Desde mayo 2026 estas migraciones tienen `[Migration]` / `.Designer.cs` y **EF las detecta**. `dotnet ef database update` y el arranque de la API (`APPLY_MIGRATIONS_ON_STARTUP=true`, default) las aplican.
+EF dispone de migraciones registradas en el proyecto. `dotnet ef database update` actúa sobre la conexión seleccionada; `API/Program.cs` también intenta aplicar pendientes al arrancar si `APPLY_MIGRATIONS_ON_STARTUP` es true (valor predeterminado). La existencia de esa configuración no prueba una ejecución satisfactoria ni identifica el estado de producción. Un arranque puede modificar schema: verificar conexión y autorización antes de iniciarlo con esa opción.
 
 ### Procedimiento en Supabase (producción)
 
@@ -181,26 +214,26 @@ Usar conexión **directa** (puerto **5432**), no el pooler (6543).
 ```powershell
 cd MiNegocioCR.Api
 
-# 1. Aplicar migraciones EF (recomendado antes del deploy)
+# 1. Solo tras verificar pendientes, conexión y autorización: aplicar migraciones EF
 $env:POSTGRES_CONNECTION_STRING = "<connection_string_supabase_5432>"
 dotnet ef database update
 
 # 2. Verificar schema
 psql "<POSTGRES_CONNECTION_STRING>" -f Scripts/verify-schema.sql
 
-# 3. Respaldo idempotente (si la BD quedó a medias en deploys anteriores)
+# 3. Solo tras revisar diferencias e historial: script de reparación de schema
 psql "<POSTGRES_CONNECTION_STRING>" -f Scripts/apply-pending-migrations.sql
 ```
 
-**Nota:** el paso 3 es seguro de ejecutar varias veces (`IF NOT EXISTS`). Úsalo si `verify-schema.sql` muestra columnas faltantes aunque `database update` diga "Done".
+**Nota:** el paso 3 es un script de reparación de schema, no una copia de respaldo. `IF NOT EXISTS` no demuestra que sea necesario o seguro para cualquier estado de datos. Revisarlo contra la base objetivo antes de autorizar su ejecución; `verify-schema.sql` cubre columnas concretas y no certifica por sí solo todas las migraciones del proyecto.
 
-**SQL manual mínimo** (si solo falta quitar descuento legacy de reparaciones):
+**SQL manual histórico** (referencia de la eliminación del descuento legacy; no ejecutar sin verificar que el cambio siga pendiente y esté autorizado):
 
 ```sql
 ALTER TABLE "RepairOrders" DROP COLUMN IF EXISTS "DiscountPercent";
 ```
 
-Registrar en `__EFMigrationsHistory` la migración `20260526120000_RemoveRepairOrderDiscountPercent` si aplica (ver script completo).
+Solo registrar `20260526120000_RemoveRepairOrderDiscountPercent` en `__EFMigrationsHistory` tras verificar que sus efectos completos fueron aplicados en esa base (ver script completo). No agregar una entrada de historial para ocultar diferencias de schema.
 
 La API también intenta migrar al arrancar en Railway; conviene aplicar el schema **antes** del redeploy para evitar el primer request fallando con 500.
 
@@ -433,7 +466,9 @@ curl -X POST https://minegociocrapi-production-bd7b.up.railway.app/api/auth/logi
 
 ---
 
-## 11. Orden recomendado (resumen)
+## 11. Orden recomendado (resumen histórico)
+
+El bloque original se conserva por trazabilidad y no sustituye las secciones 3 y 6 vigentes: tests completos → documentación → subida autorizada; verificar entorno y pendientes antes de cualquier migración. No ejecutar esta secuencia histórica literalmente.
 
 ```
 1. dotnet test (API) + npm run build (frontend)

@@ -1,5 +1,7 @@
 # Créditos / cuentas por cobrar — code review y deploy (Junio 2026)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/CAMBIOS_CREDITOS_JUNIO_2026.md](./MiNegocioCR.Api/docs/CAMBIOS_CREDITOS_JUNIO_2026.md). Se conserva el contenido específico de cada repositorio. Las menciones de publicación corresponden a la fecha del documento y no verifican el estado remoto actual.
+
 **Workspace:** `c:\Mi-negociocr`  
 **Repos Git separados:** `MiNegocioCR.Api` (`master`) · `mi-negociocr-frontend` (`main`)  
 **Spec de producto:** [CREDITOS_CUENTAS_COBRAR_DISENO_v1.md](./CREDITOS_CUENTAS_COBRAR_DISENO_v1.md)

@@ -1,5 +1,7 @@
 # Refactor: Repair Orders + Prepagos + Facturación
 
+> **Memoria del modelo financiero base (mayo 2026):** preservar motivación, decisiones y QA. Para evoluciones consultar [anulación/saldo a favor](./MiNegocioCR.Api/docs/SALE_VOID_STORE_CREDIT_AGO_2026.md), [Créditos v1.2](./MiNegocioCR.Api/docs/CAMBIOS_CREDITOS_MULTI_CUENTA_AGO_2026.md) y [diagnóstico/abonos](./MiNegocioCR.Api/docs/CAMBIOS_REPAIR_INCOME_DIAGNOSTIC_ABONO_AGO_2026.md). RegisterSaleUseCase determina el comportamiento actual; los SQL y checklists de este registro no son autorización para ejecutarlos.
+
 **Fecha:** Mayo 2026  
 **Repositorio:** `c:\Mi-negociocr`  
 **Stack:** ASP.NET Core 8 (API) + Angular 21 (Frontend) + PostgreSQL (Supabase/Railway)

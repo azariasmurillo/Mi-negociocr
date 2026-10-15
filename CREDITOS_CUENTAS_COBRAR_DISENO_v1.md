@@ -1,8 +1,10 @@
 # Créditos y cuentas por cobrar — Diseño funcional v1.1 (MiNegocioCR)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/CREDITOS_CUENTAS_COBRAR_DISENO_v1.md](./MiNegocioCR.Api/docs/CREDITOS_CUENTAS_COBRAR_DISENO_v1.md). La v1.1 de raíz conserva el diseño anterior de una cuenta; la v1.2 del API describe N cuentas por cliente y tiene correspondencia con ListCreditDebtorsUseCase y CreditMultiAccountAndLinks. No aplicar v1.1 como contrato actual.
+
 > **Spec oficial.** Diseño acordado junio 2026; **implementado** (fases 0–4, jun 2026).  
 > Deploy: [CAMBIOS_CREDITOS_JUNIO_2026.md](./CAMBIOS_CREDITOS_JUNIO_2026.md).  
-> Complementa ventas, reparaciones y [PEDIDOS_INTERNET_DISENO_v1.md](./PEDIDOS_INTERNET_DISENO_v1.md).
+> Complementa ventas, reparaciones y [PEDIDOS_INTERNET_DISENO_v1.md](./MiNegocioCR.Api/docs/PEDIDOS_INTERNET_DISENO_v1.md).
 
 **Convención:** en código MiNegocioCR el tenant es `BusinessId` (no `TenantId`). Toda consulta y mutación debe filtrar por `BusinessId` del JWT / sesión.
 

@@ -1,5 +1,7 @@
 # MiNegocioCR — Documentación del workspace
 
+> **Entrada para IA:** comenzar por [.ai/README.md](./.ai/README.md), su orden de lectura y su mapa por tema. Este README es un índice del workspace; las tablas de módulos y publicaciones conservan su contexto temporal y no verifican el estado remoto actual.
+
 Monorepo local: **API** (`MiNegocioCR.Api/`) + **Frontend** (`mi-negociocr-frontend/`) + **App** (`mi-negociocr-app/`).  
 Cada carpeta de producto tiene su **propio repositorio Git** (API → `master`, frontend → `main`, app → `feature/mobile-app-fase-a`).
 

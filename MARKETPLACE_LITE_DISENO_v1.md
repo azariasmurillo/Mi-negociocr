@@ -1,5 +1,7 @@
 # Mi-NegocioCR Marketplace Lite — Diseño funcional v1
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/MARKETPLACE_LITE_DISENO_v1.md](./MiNegocioCR.Api/docs/MARKETPLACE_LITE_DISENO_v1.md). Visión original histórica. El contrato de diseño adoptado está en TIENDA_DIGITAL_DISENO_UNIFICADO.md; conservar las alternativas originales sin aplicarlas como contrato vigente.
+
 > **Implementación:** usar **[TIENDA_DIGITAL_DISENO_UNIFICADO.md](./TIENDA_DIGITAL_DISENO_UNIFICADO.md)** (decisiones cerradas: `/tienda/{slug}`, `StoreOrder`, carrito multi-ítem).  
 > **Kickoff jun 2026:** [MARKETPLACE_INICIO_JUNIO_2026.md](./MARKETPLACE_INICIO_JUNIO_2026.md)  
 > Este archivo conserva la visión original de Chat.

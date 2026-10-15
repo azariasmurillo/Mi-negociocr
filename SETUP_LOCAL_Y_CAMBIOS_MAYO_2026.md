@@ -1,5 +1,7 @@
 # Setup local + cambios recientes (Mayo 2026)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/SETUP_LOCAL_Y_CAMBIOS_MAYO_2026.md](./MiNegocioCR.Api/docs/SETUP_LOCAL_Y_CAMBIOS_MAYO_2026.md). Memoria histórica de setup/fixes. Para BD local usar docs/local-dev-database.md del API y para producción su docs/DEPLOY.md; los scripts históricos no se deben ejecutar automáticamente.
+
 **Repositorio:** `c:\Mi-negociocr`  
 **Contexto:** sesión de onboarding a PostgreSQL local, correos, auth y fixes de dashboard/UI.  
 **Complementa:** `REFACTOR_REPAIR_PAYMENTS_SALES.md` (refactor financiero de reparaciones/ventas).  

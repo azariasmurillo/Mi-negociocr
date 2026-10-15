@@ -1,11 +1,15 @@
 # Marketplace / Tienda digital — Inicio de implementación (Junio 2026)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/MARKETPLACE_INICIO_JUNIO_2026.md](./MiNegocioCR.Api/docs/MARKETPLACE_INICIO_JUNIO_2026.md). El documento del API registra la implementación; raíz conserva el plan inicial y frontend su referencia breve. Para diseño usar TIENDA_DIGITAL_DISENO_UNIFICADO.md y para integración las notas de fase; no inferir producción.
+
 > **Empezar aquí.** Spec funcional y técnica completa: **[TIENDA_DIGITAL_DISENO_UNIFICADO.md](./TIENDA_DIGITAL_DISENO_UNIFICADO.md)**  
 > Visión producto original: [MARKETPLACE_LITE_DISENO_v1.md](./MARKETPLACE_LITE_DISENO_v1.md) · Detalle DTOs: [TIENDA_DIGITAL_SPEC.md](./TIENDA_DIGITAL_SPEC.md)
 
 **Fecha:** 11 junio 2026  
-**Estado:** Inventario y módulos core en **producción** — **marketplace sin código aún** (backlog → activo)  
+**Estado histórico al 11 de junio de 2026:** Inventario y módulos core descritos como en producción; Marketplace todavía en backlog al redactar este plan.  
 **Repos:** API `master` · Frontend `main`
+
+> **Aclaración vigente (15 octubre 2026):** este archivo conserva el plan inicial, no el estado actual. El source local ya contiene el Marketplace público, `StoreOrder` y sus consumidores frontend. Referencia de implementación: [documento del API](./MiNegocioCR.Api/docs/MARKETPLACE_INICIO_JUNIO_2026.md); fases locales de integración: [notas frontend](./mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md). Las ramas citadas arriba son referencias históricas. La existencia del código no acredita qué release o migraciones están desplegados en producción.
 
 ---
 

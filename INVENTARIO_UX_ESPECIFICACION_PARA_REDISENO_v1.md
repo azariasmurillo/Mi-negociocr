@@ -1,5 +1,7 @@
 # Inventario — Especificación para rediseño UX (v1)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/INVENTARIO_UX_ESPECIFICACION_PARA_REDISENO_v1.md](./MiNegocioCR.Api/docs/INVENTARIO_UX_ESPECIFICACION_PARA_REDISENO_v1.md). Análisis histórico anterior al rediseño; no describe la UI actual. La evolución se documenta en INVENTARIO_UX_REDISENO_v2.md y notas posteriores.
+
 **Workspace:** `c:\Mi-negociocr`  
 **Copia completa en repo API:** [MiNegocioCR.Api/docs/INVENTARIO_UX_ESPECIFICACION_PARA_REDISENO_v1.md](./MiNegocioCR.Api/docs/INVENTARIO_UX_ESPECIFICACION_PARA_REDISENO_v1.md)
 

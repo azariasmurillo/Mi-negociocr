@@ -1,5 +1,7 @@
 # Pedidos Internet — code review y documentación de commit (Junio 2026)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/CAMBIOS_PEDIDOS_INTERNET_JUNIO_2026.md](./MiNegocioCR.Api/docs/CAMBIOS_PEDIDOS_INTERNET_JUNIO_2026.md). Se conserva el contenido específico de cada repositorio. Las menciones de publicación corresponden a la fecha del documento y no verifican el estado remoto actual.
+
 **Workspace:** `c:\Mi-negociocr`  
 **Repos Git separados:** `MiNegocioCR.Api` (`master`) · `mi-negociocr-frontend` (`main`)  
 **Spec de producto:** [MiNegocioCR.Api/docs/PEDIDOS_INTERNET_DISENO_v1.md](./MiNegocioCR.Api/docs/PEDIDOS_INTERNET_DISENO_v1.md)  

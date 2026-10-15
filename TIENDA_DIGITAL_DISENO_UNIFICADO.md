@@ -1,5 +1,7 @@
 # Tienda digital pública — Diseño unificado (MiNegocioCR)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/TIENDA_DIGITAL_DISENO_UNIFICADO.md](./MiNegocioCR.Api/docs/TIENDA_DIGITAL_DISENO_UNIFICADO.md). Se conserva el contenido específico de cada repositorio. Las menciones de publicación corresponden a la fecha del documento y no verifican el estado remoto actual.
+
 > **Spec oficial para desarrollo.** Fusiona `TIENDA_DIGITAL_SPEC.md` (Claude) + `MARKETPLACE_LITE_DISENO_v1.md` (Chat).  
 > **Inicio implementación (jun 2026):** [MARKETPLACE_INICIO_JUNIO_2026.md](./MARKETPLACE_INICIO_JUNIO_2026.md)  
 > Decisiones cerradas en este documento; los otros dos quedan como referencia histórica.

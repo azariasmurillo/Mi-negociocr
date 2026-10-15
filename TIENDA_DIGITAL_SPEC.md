@@ -1,4 +1,6 @@
 # 🛒 Tienda Digital Pública — MiNegocioCR
+
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/TIENDA_DIGITAL_SPEC.md](./MiNegocioCR.Api/docs/TIENDA_DIGITAL_SPEC.md). Referencia técnica histórica de DTOs y wireframes. Ante diferencias, el source y TIENDA_DIGITAL_DISENO_UNIFICADO.md con sus notas de evolución tienen prioridad; no resolver contratos divergentes por suposición.
 > Documento de especificación para desarrollo con Cursor AI  
 > Proyecto: `MiNegocioCR.Api` (.NET 8 / Clean Architecture / PostgreSQL / Supabase)  
 > Sitio actual: [www.mi-negociocr.com](https://www.mi-negociocr.com)

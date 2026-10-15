@@ -1,5 +1,7 @@
 # Inventario — Diseño UX aprobado e implementación (v2)
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/INVENTARIO_UX_REDISENO_v2.md](./MiNegocioCR.Api/docs/INVENTARIO_UX_REDISENO_v2.md). Referencia de decisiones y sprints de junio, con evolución AI-first posterior; no prueba el estado actual de todas las pantallas.
+
 **Workspace:** `c:\Mi-negociocr`  
 **Documento completo:** [MiNegocioCR.Api/docs/INVENTARIO_UX_REDISENO_v2.md](./MiNegocioCR.Api/docs/INVENTARIO_UX_REDISENO_v2.md)
 
