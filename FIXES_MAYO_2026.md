@@ -1,5 +1,7 @@
 # Registro de fixes — Mayo 2026
 
+> **Rol documental (15 octubre 2026): Copia/resumen conservado.** Consultar [MiNegocioCR.Api/docs/FIXES_MAYO_2026.md](./MiNegocioCR.Api/docs/FIXES_MAYO_2026.md). El registro del API es la entrada para el historial compartido; la raíz contiene además la entrada propia del Lightbox de octubre. Ninguna copia es exhaustiva: conservar ambas y seguir las notas de módulo. No sincronizar por reemplazo completo.
+
 Historial de correcciones aplicadas en MiNegocioCR (API + frontend).  
 **Se actualiza en cada fix** hasta que indiques *“seguimos con otro fix”* — entonces pasamos al siguiente cambio en código y lo documentamos aquí.
 
@@ -974,25 +976,32 @@ Solo frontend (`main` → Vercel). Sin migraciones.
 
 ## 33. Marketplace PDP — lightbox de galería (oct 2026)
 
+> Entrada principal ampliada en **[mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md](./mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md)** (sección *Memoria técnica — Lightbox PDP*). Este apartado resume para el registro raíz.
+
 ### Qué se entregó
 
-- Visor ampliado en PDP pública: modal centrado, contador, navegación y controles de zoom.
-- Interacción: sin `zoom-in` dentro del visor; pan con límites cuando hay zoom; clic simple no amplía (solo toolbar).
-- Galería principal conserva `zoom-in` porque el clic abre el visor.
+- Visor ampliado en PDP pública: `MatDialog` centrado (`min(800px, 95vw)`, max 85vh), backdrop `rgba(0,0,0,0.65)`, tema de tienda en overlay.
+- Zoom 1–3 (paso 0.5), pan acotado con `grab`/`grabbing` cuando `zoom > 1`; clic simple en la foto **no** amplía.
+- Galería PDP: `cursor: zoom-in` en `.gallery-main-trigger` (clic abre visor).
+- Navegación entre fotos, teclado, swipe táctil con `zoom = 1`; cierre al cambiar producto/variante/salir de la página.
 
-### Documentación
+### Decisión relevante
 
-**[mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md](./mi-negociocr-frontend/docs/TIENDA_PUBLICA_DEPLOY_SEP_2026.md)** — smoke lightbox y Fase 3.
+Separar la semántica del cursor: la lupa en la miniatura indica «abrir visor»; dentro del visor el zoom es explícito (toolbar/teclado), evitando la lupa engañosa.
 
-### Deploy
+### Archivos (frontend)
 
-Solo frontend (`main` → Vercel). Sin migraciones ni cambios API para este fix.
+`components/store-image-lightbox/*`, `utils/store-image-lightbox-open.util.ts`, `utils/store-image-lightbox-zoom.util.ts`, integración en `pages/store-product/*`.
 
-```powershell
-cd mi-negociocr-frontend
-npm test -- --watch=false
-npm run build
-```
+### Verificación
+
+- Implementación: tests focalizados lightbox **44/44** (15 oct 2026, revisión documental).
+- Cierre de código (misma ventana): suite FE **627/627** + `npm run build` (registro previo al push).
+- **Despliegue Vercel / smoke prod:** no verificado en esta memoria; ver estados en doc FE.
+
+### Revisión
+
+Repo `mi-negociocr-frontend` · commit feature `40e7f09` · integrado en **`main`** @ `a2804ff` · `origin/main` alineado (oct 2026). Sin cambios API/BD.
 
 ---
 
